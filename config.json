@@ -1,0 +1,14 @@
+{
+  "screen": {
+    "width": 1920,
+    "height": 1080
+  },
+  "hotkey_start_key": "F5",
+  "hotkey_start_scan": 63,
+  "hotkey_pause_key": "F4",
+  "hotkey_pause_scan": 62,
+  "hotkey_stop_key": "F8",
+  "hotkey_stop_scan": 66,
+  "reconnect_enabled": false,
+  "reconnect_time": "16:40"
+}
