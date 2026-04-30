@@ -9,6 +9,6 @@
   "hotkey_pause_scan": 62,
   "hotkey_stop_key": "F8",
   "hotkey_stop_scan": 66,
-  "reconnect_enabled": false,
-  "reconnect_time": "16:40"
+  "reconnect_enabled": true,
+  "reconnect_time": "17:41"
 }
