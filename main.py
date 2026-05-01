@@ -75,17 +75,16 @@ class AFKBot:
         while time.time() < deadline:
             if self._stop_evt.is_set():
                 return False
-            if self._reconnect_evt.is_set():   # ← прерываем любое ожидание
+            if self._reconnect_evt.is_set():
                 return False
             if self._pause_evt.is_set():
-                time.sleep(0.1)
                 deadline += 0.1
+                time.sleep(0.1)
                 continue
-            time.sleep(0.05)
+            time.sleep(min(1.0, deadline - time.time()))  # ← не выходим за deadline
         return True
 
     def _reconnect(self):
-        print(3123123123123123123123123)
         self.log("[>>] Переподключение к серверу...\n", "accent")
         keyboard.release("w")
         keyboard.release("s")
@@ -93,11 +92,13 @@ class AFKBot:
         self._wait(0.2)
 
         screen_w, screen_h = pyautogui.size()
-        pyautogui.FAILSAFE = False                    # отключаем на время клика
-        pyautogui.click(screen_w - 20, 20)            # отступ от угла
-        pyautogui.FAILSAFE = True                     # включаем обратно
+        pyautogui.FAILSAFE = False
+        pyautogui.click(screen_w - 230, 20)
+        pyautogui.FAILSAFE = True
+        self._wait(2)
+        pyautogui.click(screen_w - 730, 550)
         self._wait(3)
-
+        
     def _loop(self, cfg):
         pyautogui.FAILSAFE = True
         w = cfg["screen"]["width"]
