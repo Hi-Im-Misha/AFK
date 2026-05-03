@@ -4,6 +4,14 @@ import threading
 import pyautogui
 import keyboard
 from datetime import datetime, timezone, timedelta
+import pyperclip
+import json
+import keyboard
+
+
+with open("config.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+password = data.get("pass", "")
 
 class AFKBot:
     def __init__(self, log_fn, on_end_fn, on_cycle_fn):
@@ -84,20 +92,67 @@ class AFKBot:
             time.sleep(min(1.0, deadline - time.time()))  # ← не выходим за deadline
         return True
 
+
+
+    def _festival(self):
+        self.log("[>>] нажатие на событие\n", "accent")
+        keyboard.release("w")
+        keyboard.release("s")
+
+        pyautogui.FAILSAFE = False
+
+        pyautogui.press("f10")
+        time.sleep(1)
+
+
+        pyautogui.click(782, 272)
+        time.sleep(1)
+
+        pyautogui.click(970, 720)
+        time.sleep(3)
+
     def _reconnect(self):
         self.log("[>>] Переподключение к серверу...\n", "accent")
         keyboard.release("w")
         keyboard.release("s")
+
+        pyautogui.FAILSAFE = False
+
         pyautogui.press("f1")
-        self._wait(0.2)
+        time.sleep(1.5)
 
         screen_w, screen_h = pyautogui.size()
-        pyautogui.FAILSAFE = False
-        pyautogui.click(screen_w - 230, 20)
+
+        x1, y1 = screen_w - 230, 20
+        pyautogui.click(x1, y1)
+        time.sleep(2)
+
+        x2, y2 = screen_w - 770, 555
+        pyautogui.click(x2, y2)
+        time.sleep(60)
+
+        #в меню ??? другой подход ???
+
+        pyautogui.press("f2")
+        time.sleep(1)
+        
+        pyautogui.click(970, 620)
+        time.sleep(1)
+
+        pyperclip.copy(password)
+        keyboard.press("ctrl+v")
+        time.sleep(1)
+
+        pyautogui.click(970, 680)
+        time.sleep(2)
+
+        pyautogui.click(1600, 450)
+        time.sleep(2)
+
+        pyautogui.click(970, 945)
+        time.sleep(10)
+
         pyautogui.FAILSAFE = True
-        self._wait(2)
-        pyautogui.click(screen_w - 730, 550)
-        self._wait(3)
         
     def _loop(self, cfg):
         pyautogui.FAILSAFE = True
