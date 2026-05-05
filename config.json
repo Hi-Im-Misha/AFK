@@ -9,7 +9,8 @@
   "hotkey_pause_scan": 62,
   "hotkey_stop_key": "F8",
   "hotkey_stop_scan": 66,
-  "reconnect_enabled": true,
-  "reconnect_time": "18:26",
-  "pass": "123"
+  "reconnect_enabled": false,
+  "reconnect_time": "07:10",
+  "pass": "123",
+  "festival_enabled": true
 }

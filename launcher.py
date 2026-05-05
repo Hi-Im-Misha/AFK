@@ -124,6 +124,20 @@ class GTA5Launcher(tk.Tk):
         self._btn(rc, "Сохранить", self._save_rc).pack(side="left")
         tk.Frame(self, bg=B, height=1).pack(fill="x", padx=16)
 
+        # ── Festival ──────────────────────────────────────────────────────────
+        fe = tk.Frame(self, bg=D, pady=8)
+        fe.pack(fill="x", padx=16)
+
+        self._var_fe = tk.BooleanVar()
+        tk.Checkbutton(fe, text="Собирать Событие", variable=self._var_fe,
+                       font=lf, fg=M, bg=D, selectcolor=D,
+                       activebackground=D, activeforeground=T,
+                       command=self._save_fe).pack(side="left")
+        tk.Frame(self, bg=B, height=1).pack(fill="x", padx=16)
+
+        # stats
+        stats = tk.Frame(self, bg=D, pady=8)
+
         # stats
         stats = tk.Frame(self, bg=D, pady=8)
         stats.pack(fill="x", padx=16)
@@ -215,6 +229,22 @@ class GTA5Launcher(tk.Tk):
         except Exception as e:
             messagebox.showerror("Ошибка", str(e))
 
+
+ 
+    
+
+
+    def _save_fe(self):
+        try:
+            cfg = _load_config()
+            cfg["festival_enabled"] = self._var_fe.get()
+            _save_config(cfg)
+            state = "включено" if self._var_fe.get() else "выключено"
+            self._log(f"[CFG] Собирать Событие: {state}\n", "accent")
+        except Exception as e:
+            messagebox.showerror("Ошибка", str(e))
+
+
     # ── Config ────────────────────────────────────────────────────────────────
     def _load_config_to_ui(self):
         try:
@@ -226,10 +256,13 @@ class GTA5Launcher(tk.Tk):
             f8  = cfg.get("hotkey_stop_key",   "F8")
             rc_on   = cfg.get("reconnect_enabled", False)
             rc_time = cfg.get("reconnect_time", "07:00")
+            fe_on = cfg.get("festival_enabled", False)
         except Exception:
             w, h, f5, f4, f8 = 1920, 1080, "F5", "F4", "F8"
             rc_on, rc_time = False, "07:00"
+            fe_on = False
 
+        self._var_fe.set(fe_on)
         self._ent_w.delete(0, "end"); self._ent_w.insert(0, str(w))
         self._ent_h.delete(0, "end"); self._ent_h.insert(0, str(h))
         self._lbl_f5.config(text=f5)

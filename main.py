@@ -99,17 +99,19 @@ class AFKBot:
         keyboard.release("w")
         keyboard.release("s")
 
-        pyautogui.FAILSAFE = False
-
         pyautogui.press("f10")
         time.sleep(1)
-
 
         pyautogui.click(782, 272)
         time.sleep(1)
 
         pyautogui.click(970, 720)
         time.sleep(3)
+
+        pyautogui.press("escape")
+        time.sleep(0.5)
+        pyautogui.press("escape")
+        time.sleep(0.5)
 
     def _reconnect(self):
         self.log("[>>] Переподключение к серверу...\n", "accent")
@@ -206,6 +208,12 @@ class AFKBot:
                 if not self._wait(0.5): break
                 pyautogui.press("escape")
                 if not self._wait(0.5): break
+
+
+                # ---- festival (если включено) ----
+                if cfg.get("festival_enabled"):
+                    self._festival()
+                    if not self._wait(1): break
 
                 # ---- hold W + S for 5 minutes ----
                 self.log("[..] Удержание W+S (5 мин)\n", "muted")
